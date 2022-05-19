@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMusic", "WebMusic\WebMusic.csproj", "{283F4A7A-1EC7-4C20-AB2C-A2617A9EBC93}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{283F4A7A-1EC7-4C20-AB2C-A2617A9EBC93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{283F4A7A-1EC7-4C20-AB2C-A2617A9EBC93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{283F4A7A-1EC7-4C20-AB2C-A2617A9EBC93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{283F4A7A-1EC7-4C20-AB2C-A2617A9EBC93}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DA74D84E-8C25-467A-B0F2-133627B614C9}
+	EndGlobalSection
+EndGlobal
