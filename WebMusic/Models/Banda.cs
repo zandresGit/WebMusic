@@ -13,9 +13,11 @@ namespace WebMusic.Models
 
         [MaxLength(50, ErrorMessage = "El campo {0} debe contener al menos un caracter")]
         [Required]
+        [DisplayName("Nombre")]
         public string nombre { get; set; }
-
+        [MaxLength(50, ErrorMessage = "El campo {0} debe contener al menos un caracter")]
         [Required]
+        [DisplayName("Origen")]
         public string origen { get; set; }
 
         public ICollection<Album> Albums { get; set; }

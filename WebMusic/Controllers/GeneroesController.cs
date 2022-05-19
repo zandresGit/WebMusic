@@ -23,7 +23,7 @@ namespace WebMusic.Controllers
         public async Task<IActionResult> Index()
         {
               return View(await _context.Generos
-                  .Include(c => c.Bandas)
+                  .Include(b => b.Bandas)
                   .ToListAsync());
         }
 
@@ -36,7 +36,9 @@ namespace WebMusic.Controllers
             }
 
             var genero = await _context.Generos
-                .Include(c => c.Bandas)
+                .Include(g => g.Bandas)
+                .ThenInclude(b => b.Albums)
+                .ThenInclude(a => a.Cancions)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (genero == null)
             {
@@ -152,7 +154,9 @@ namespace WebMusic.Controllers
             }
 
             var genero = await _context.Generos
-                .Include(c => c.Bandas)
+                .Include(g => g.Bandas)
+                .ThenInclude(b => b.Albums)
+                .ThenInclude(a => a.Cancions)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (genero == null)
             {
@@ -172,7 +176,7 @@ namespace WebMusic.Controllers
 
 
 
-        //---------------------------------------------------------------------------------------------------
+        //-----------------------------BANDAS----------------------------------------------------------------------
         public async Task<IActionResult> AddBanda(int? id)
         {
             if (id == null)
@@ -195,8 +199,8 @@ namespace WebMusic.Controllers
             if (ModelState.IsValid)
             {
                 Genero genero = await _context.Generos
-                    .Include(c => c.Bandas)
-                    .FirstOrDefaultAsync(c => c.Id == banda.IdGenero);
+                    .Include(g => g.Bandas)
+                    .FirstOrDefaultAsync(g => g.Id == banda.IdGenero);
 
                 if (genero == null)
                 {
@@ -209,9 +213,7 @@ namespace WebMusic.Controllers
                     genero.Bandas.Add(banda);
                     _context.Update(genero);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new
-                    {
-                        Id = genero.Id
+                    return RedirectToAction(nameof(Details), new{ Id = genero.Id
                     });
                 }
                 catch (DbUpdateException dbUpdateException)
@@ -295,6 +297,8 @@ namespace WebMusic.Controllers
                 return NotFound();
             }
             Banda banda = await _context.Bandas
+            .Include(b => b.Albums)
+            .ThenInclude(a => a.Cancions)
             .FirstOrDefaultAsync(m => m.Id == id);
             if (banda == null)
             {
@@ -305,6 +309,300 @@ namespace WebMusic.Controllers
             _context.Bandas.Remove(banda);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Details), new { Id = genero.Id });
+        }
+
+        public async Task<IActionResult> DetailsBanda(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Banda banda = await _context.Bandas
+            .Include(b => b.Albums)
+            .ThenInclude(a => a.Cancions)
+            .FirstOrDefaultAsync(m => m.Id == id);
+            if (banda == null)
+            {
+                return NotFound();
+            }
+            Genero genero = await _context.Generos.FirstOrDefaultAsync(g =>
+            g.Bandas.FirstOrDefault(b => b.Id == banda.Id) != null);
+            banda.IdGenero = genero.Id;
+            return View(banda);
+        }
+
+        //-----------------------------ALBUMES-----------------------------------
+
+        public async Task<IActionResult> AddAlbum(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Banda banda = await _context.Bandas.FindAsync(id);
+            if (banda == null)
+            {
+                return NotFound();
+            }
+            Album model = new Album { IdBanda = banda.Id };
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddAlbum(Album album)
+        {
+            if (ModelState.IsValid)
+            {
+                Banda banda = await _context.Bandas
+                .Include(b => b.Albums)
+                .FirstOrDefaultAsync(a => a.Id == album.IdBanda);
+                if (banda == null)
+                {
+                    return NotFound();
+                }
+                try
+                {
+                    album.Id = 0;
+                    banda.Albums.Add(album);
+                    _context.Update(banda);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(DetailsBanda), new { Id = banda.Id });
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty,
+                        dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+            }
+            return View(album);
+        }
+
+        public async Task<IActionResult> EditAlbum(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Album album = await _context.Albums.FindAsync(id);
+            if (album == null)
+            {
+                return NotFound();
+            }
+            Banda banda = await _context.Bandas.FirstOrDefaultAsync(b =>
+            b.Albums.FirstOrDefault(a => a.Id == album.Id) != null);
+            album.IdBanda = banda.Id;
+            return View(album);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAlbum(Album album)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(album);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(DetailsBanda), new { Id = album.IdBanda });
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty,
+                        dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+            }
+            return View(album);
+        }
+
+        public async Task<IActionResult> DeleteAlbum(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Album album = await _context.Albums
+             .Include(a => a.Cancions)
+            .FirstOrDefaultAsync(m => m.Id == id);
+            if (album == null)
+            {
+                return NotFound();
+            }
+            Banda banda = await _context.Bandas.FirstOrDefaultAsync(b
+            => b.Albums.FirstOrDefault(a => a.Id == album.Id) != null);
+            _context.Albums.Remove(album);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(DetailsBanda), new
+            {
+                Id = banda.Id
+            });
+        }
+
+        public async Task<IActionResult> DetailsAlbum(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Album album = await _context.Albums
+            .Include(a => a.Cancions)
+            .FirstOrDefaultAsync(m => m.Id == id);
+            if (album == null)
+            {
+                return NotFound();
+            }
+            Banda banda = await _context.Bandas.FirstOrDefaultAsync(b =>
+            b.Albums.FirstOrDefault(a => a.Id == album.Id) != null);
+            album.IdBanda = banda.Id;
+            return View(album);
+        }
+
+        //-----------------------CANCIONES---------------------------------
+
+        public async Task<IActionResult> AddCancion(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Album album = await _context.Albums.FindAsync(id);
+            if (album == null)
+            {
+                return NotFound();
+            }
+            Cancion model = new Cancion { IdAlbum = album.Id };
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddCancion(Cancion cancion)
+        {
+            if (ModelState.IsValid)
+            {
+                Album album = await _context.Albums
+                .Include(a => a.Cancions)
+                .FirstOrDefaultAsync(c => c.Id == cancion.IdAlbum);
+                if (album == null)
+                {
+                    return NotFound();
+                }
+                try
+                {
+                    cancion.Id = 0;
+                    album.Cancions.Add(cancion);
+                    _context.Update(album);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(DetailsAlbum), new { Id = album.Id });
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty,
+                        dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+            }
+            return View(cancion);
+        }
+
+        public async Task<IActionResult> EditCancion(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Cancion cancion = await _context.Cancions.FindAsync(id);
+            if (cancion == null)
+            {
+                return NotFound();
+            }
+            Album album = await _context.Albums.FirstOrDefaultAsync(a =>
+            a.Cancions.FirstOrDefault(c => c.Id == cancion.Id) != null);
+            cancion.IdAlbum = album.Id;
+            return View(cancion);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCancion(Cancion cancion)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(cancion);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(DetailsAlbum), new { Id = cancion.IdAlbum });
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty,
+                        dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+            }
+            return View(cancion);
+        }
+
+        public async Task<IActionResult> DeleteCancion(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Cancion cancion = await _context.Cancions
+            .FirstOrDefaultAsync(m => m.Id == id);
+            if (cancion == null)
+            {
+                return NotFound();
+            }
+            Album album = await _context.Albums.FirstOrDefaultAsync(a
+            => a.Cancions.FirstOrDefault(c => c.Id == cancion.Id) != null);
+            _context.Cancions.Remove(cancion);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(DetailsAlbum), new
+            {
+                Id = album.Id
+            });
         }
 
     }

@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace WebMusic.Models
 {
@@ -14,6 +17,11 @@ namespace WebMusic.Models
         public string Link { get; set; }
 
         [Required]
+        [DisplayName("Duración")]
         public int Duracion { get; set; }
+
+        [JsonIgnore] //lo ignora en la respuesta json
+        [NotMapped] //no se crea en la base de datos
+        public int IdAlbum { get; set; }
     }
 }

@@ -1,0 +1,26 @@
+﻿@model WebMusic.Models.Album
+@{
+    ViewData["Title"] = "Editar";
+}
+<h2>Editar</h2>
+<h4>Álbum</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditAlbum">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="IdBanda" />
+            <partial name="_Album" />
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <a asp-action="DetailsBanda" asp-route-id="@Model.IdBanda" class="btn btn-success">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

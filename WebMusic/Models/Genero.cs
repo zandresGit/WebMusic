@@ -10,10 +10,11 @@ namespace WebMusic.Models
 
         [MaxLength(50, ErrorMessage="El campo {0} debe contener al menos un caracter")]
         [Required]
+        [DisplayName("Género")]
         public string des_genero { get; set; }
 
         public ICollection<Banda> Bandas { get; set; }
-        [DisplayName("Cantidad de bandas")]
+        [DisplayName("Número de bandas")]
         public int BandasNumber => Bandas == null ? 0 : Bandas.Count;
     }
 }
