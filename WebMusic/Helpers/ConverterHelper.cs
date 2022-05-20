@@ -11,7 +11,8 @@ namespace WebMusic.Helpers
             {
                 Id = isNew ? 0 : model.Id,
                 ImageId = imageId,
-                nombre = model.nombre
+                nombre = model.nombre,
+                anio = model.anio
             };
         }
 
@@ -21,7 +22,8 @@ namespace WebMusic.Helpers
             {
                 Id = album.Id,
                 ImageId = album.ImageId,
-                nombre = album.nombre
+                nombre = album.nombre,
+                anio = album.anio
             };
         }
     }

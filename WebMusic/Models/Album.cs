@@ -31,7 +31,7 @@ namespace WebMusic.Models
         //TODO: Pending to put the correct paths
         [Display(Name = "Image")]
         public string ImageFullPath => ImageId == Guid.Empty
-        ? "$https://localhost:44398/images/noimage.png"// luego cambiamos esta url por la de
+        ? "$https://localhost:5000/images/noimage.png"// luego cambiamos esta url por la de
                                                        //Azure
         : $"https://webmusic.Web.blob.core.windows.net/albumes/{ImageId}"; // blob en Azure
     }

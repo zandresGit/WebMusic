@@ -437,10 +437,10 @@ namespace WebMusic.Controllers
 
                 try
                 {
-                    Album album = _converterHelper.ToAlbum(model, imageId, true);
+                    Album album = _converterHelper.ToAlbum(model, imageId, false);
                     _context.Update(album);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(DetailsBanda), new { Id = album.IdBanda });
+                    return RedirectToAction(nameof(DetailsBanda), new { Id = model.IdBanda });
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -475,6 +475,7 @@ namespace WebMusic.Controllers
             {
                 return NotFound();
             }
+
             Banda banda = await _context.Bandas.FirstOrDefaultAsync(b
             => b.Albums.FirstOrDefault(a => a.Id == album.Id) != null);
             _context.Albums.Remove(album);
