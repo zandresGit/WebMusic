@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebMusic.Data;
+using WebMusic.Helpers;
 using WebMusic.Models;
 
 namespace WebMusic.Controllers
@@ -13,10 +14,15 @@ namespace WebMusic.Controllers
     public class GeneroesController : Controller
     {
         private readonly DataContext _context;
+        private readonly IBlobHelper _blobHelper;
+        private readonly IConverterHelper _converterHelper;
 
-        public GeneroesController(DataContext context)
+        public GeneroesController(DataContext context, IBlobHelper blobHelper, IConverterHelper converterHelper)
         {
             _context = context;
+            _blobHelper = blobHelper;
+            _converterHelper = converterHelper;
+
         }
 
         // GET: Generoes
@@ -344,24 +350,33 @@ namespace WebMusic.Controllers
             {
                 return NotFound();
             }
-            Album model = new Album { IdBanda = banda.Id };
+            AlbumViewModel model = new AlbumViewModel();
+            model = new AlbumViewModel { IdBanda = banda.Id };
             return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddAlbum(Album album)
+        public async Task<IActionResult> AddAlbum(AlbumViewModel model)
         {
             if (ModelState.IsValid)
             {
+                Guid imageId = Guid.Empty;
+
+                if (model.ImageFile != null)
+                {
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "albumes");
+                }
+
                 Banda banda = await _context.Bandas
                 .Include(b => b.Albums)
-                .FirstOrDefaultAsync(a => a.Id == album.IdBanda);
+                .FirstOrDefaultAsync(a => a.Id == model.IdBanda);
                 if (banda == null)
                 {
                     return NotFound();
                 }
                 try
                 {
+                    Album album = _converterHelper.ToAlbum(model, imageId, true);
                     album.Id = 0;
                     banda.Albums.Add(album);
                     _context.Update(banda);
@@ -385,7 +400,7 @@ namespace WebMusic.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(album);
+            return View(model);
         }
 
         public async Task<IActionResult> EditAlbum(int? id)
@@ -399,19 +414,30 @@ namespace WebMusic.Controllers
             {
                 return NotFound();
             }
+
+            AlbumViewModel model = _converterHelper.ToAlbumViewModel(album);
             Banda banda = await _context.Bandas.FirstOrDefaultAsync(b =>
-            b.Albums.FirstOrDefault(a => a.Id == album.Id) != null);
-            album.IdBanda = banda.Id;
-            return View(album);
+            b.Albums.FirstOrDefault(a => a.Id == model.Id) != null);
+            model.IdBanda = banda.Id;
+            
+            return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAlbum(Album album)
+        public async Task<IActionResult> EditAlbum(AlbumViewModel model)
         {
             if (ModelState.IsValid)
             {
+                Guid imageId = Guid.Empty;
+
+                if (model.ImageFile != null)
+                {
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "albumes");
+                }
+
                 try
                 {
+                    Album album = _converterHelper.ToAlbum(model, imageId, true);
                     _context.Update(album);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(DetailsBanda), new { Id = album.IdBanda });
@@ -433,7 +459,7 @@ namespace WebMusic.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(album);
+            return View(model);
         }
 
         public async Task<IActionResult> DeleteAlbum(int? id)

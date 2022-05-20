@@ -23,7 +23,7 @@
 </style>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddAlbum">
+        <form asp-action="AddAlbum" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdBanda" />
             <partial name="_Album" />

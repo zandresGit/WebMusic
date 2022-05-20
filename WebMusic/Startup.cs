@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebMusic.Data;
+using WebMusic.Helpers;
 
 namespace WebMusic
 {
@@ -28,6 +29,9 @@ namespace WebMusic
             });
             services.AddControllersWithViews();
             services.AddTransient<SeedDb>();
+            services.AddScoped<IBlobHelper, BlobHelper>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

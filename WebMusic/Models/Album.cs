@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -25,5 +26,13 @@ namespace WebMusic.Models
         [JsonIgnore] //lo ignora en la respuesta json
         [NotMapped] //no se crea en la base de datos
         public int IdBanda { get; set; }
+
+        public Guid ImageId { get; set; }
+        //TODO: Pending to put the correct paths
+        [Display(Name = "Image")]
+        public string ImageFullPath => ImageId == Guid.Empty
+        ? "$https://localhost:44398/images/noimage.png"// luego cambiamos esta url por la de
+                                                       //Azure
+        : $"https://webmusic.Web.blob.core.windows.net/albumes/{ImageId}"; // blob en Azure
     }
 }
