@@ -2,9 +2,31 @@
 @{
     ViewData["Title"] = "Editar";
 }
-<h2>Editar</h2>
-<h4>Banda</h4>
+
+
+<style type="text/css">
+    .row{
+        justify-content: center;
+    }
+    label{
+        color: red;
+    }
+    .form-group{
+        background-color: rgb(0 0 0 / 55%);
+        border-radius: 0.25rem;
+        border-bottom-width: 16px;
+        padding-bottom: 20px;
+        margin-bottom: 0px;
+        padding-top: 20px;
+    }
+    .form-control{
+        width: 95%;
+    }
+</style>
+
 <hr />
+<br />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="EditBanda">
@@ -12,12 +34,15 @@
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="IdGenero" />
             <partial name="_Banda" />
-            <div class="form-group">
+            <div class="form-group" align="center">
                 <input type="submit" value="Guardar" class="btn btn-primary" />
-                <a asp-action="Details" asp-route-id="@Model.IdGenero" class="btn btn-success">Volver a la lista</a>
+                
             </div>
         </form>
     </div>
+</div>
+<div align="right">
+    <a asp-action="Details" asp-route-id="@Model.IdGenero" class="btn btn-success">Volver a la lista</a>
 </div>
 @section Scripts {
 @{

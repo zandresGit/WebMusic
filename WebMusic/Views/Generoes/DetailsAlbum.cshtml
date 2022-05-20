@@ -7,60 +7,62 @@
 <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css" />
 <link rel="stylesheet" href="~/lib/Font-Awesome/css/regular.min.css">
 <link rel="stylesheet" href="~/lib/Font-Awesome/css/solid.min.css">
-<h2>Details</h2>
-<div>
-    <h4>Álbum</h4>
-    <br />
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.nombre)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.nombre)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.anio)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.anio)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CancionsNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CancionsNumber)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="AddCancion" asp-route-id="@Model.Id" class="btn btn-primary">
-        <i class="fas fa-plus"></i> Canción
-    </a>
-    <a asp-action="DetailsBanda" asp-route-id="@Model.IdBanda" class="btn btn-success">Volver a la lista</a>
-</div>
+
+<style type="text/css">
+    .row{
+        background-color: rgb(0 0 0 / 78%);
+    }
+    .table {
+        color: white;
+    }
+    .table-hover tbody tr:hover {
+        color: #ff0000;
+        background-color: rgba(255 0 0 / 10%);
+    }
+    label, button, input, optgroup, select, textarea, h3 {
+        color: white;
+        text-align: center;
+    }
+    dt {
+        color: red;
+    }
+</style>
+
 <br />
+<br />
+<br />
+
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Canciones</h3>
             </div>
+            <div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre) :     @Html.DisplayFor(model => model.nombre)
+        </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.anio) :     @Html.DisplayFor(model => model.anio)
+        </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.CancionsNumber) :     @Html.DisplayFor(model => model.CancionsNumber)
+        </dt>
+    </dl>
+</div>
             <div class="panel-body">
-                <table class="table table-hover table-responsive table-striped" id="MyTable">
+                <table class="table table-hover table-striped" id="MyTable">
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model =>
-                                model.Cancions.FirstOrDefault().Nombre)
+                                @Html.DisplayNameFor(model => model.Cancions.FirstOrDefault().Nombre)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model =>
-                                model.Cancions.FirstOrDefault().Link)
+                                @Html.DisplayNameFor(model => model.Cancions.FirstOrDefault().Link)
                             </th>
                                 <th>
-                                @Html.DisplayNameFor(model =>
-                                model.Cancions.FirstOrDefault().Duracion)
+                                @Html.DisplayNameFor(model => model.Cancions.FirstOrDefault().Duracion)
                             </th>
                             <th></th>
                         </tr>
@@ -78,13 +80,11 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Duracion)
                                 </td>
-                                <td>
+                                <td align="right">
                                     <a asp-action="EditCancion" asp-route-id="@item.Id" class="btn btn-warning">
                                         <i class="fas fa-edit"></i></a>
-                                    <button data-id="@item.Id" class="btn btn-danger deleteItem"
-                                        data-toggle="modal" data-target="#deleteDialog">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">
+                                        <i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
                         }
@@ -94,6 +94,14 @@
         </div>
     </div>
 </div>
+<hr />
+<div>
+    <a asp-action="AddCancion" asp-route-id="@Model.Id" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Canción
+    </a>
+    <a asp-action="DetailsBanda" asp-route-id="@Model.IdBanda" class="btn btn-success">Volver a la lista</a>
+</div>
+
 <partial name="_DeleteDialog" />
 @section Scripts {
 @{

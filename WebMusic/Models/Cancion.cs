@@ -18,7 +18,7 @@ namespace WebMusic.Models
 
         [Required]
         [DisplayName("Duración")]
-        public int Duracion { get; set; }
+        public string Duracion { get; set; }
 
         [JsonIgnore] //lo ignora en la respuesta json
         [NotMapped] //no se crea en la base de datos

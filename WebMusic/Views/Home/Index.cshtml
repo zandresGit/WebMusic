@@ -2,7 +2,21 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-hover table-striped" id="MyTable">
+                    <tr>
+                        <td align="center" width="50%">
+                            <a style="height: 500px;"><img src="https://thumbs.dreamstime.com/b/disco-del-vinilo-para-el-logotipo-de-mezcla-la-m%C3%BAsica-dj-ejemplo-dise%C3%B1o-142256081.jpg" height="546px" width="80%" /></a>
+                        </td>
+                        <td align="center" width="50%">
+ 	                        <a asp-controller="Generoes" asp-action="Index" style="height: 500px;"><img src="https://img.freepik.com/vector-gratis/concepto-gesto-rock-monocromo-vintage_225004-1211.jpg?w=2000" height="80%" width="80%" /></a>
+ 	                    </td>
+                    </tr>  
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
