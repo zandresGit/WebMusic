@@ -2,21 +2,40 @@
 @{
     ViewData["Title"] = "Agregar Canción";
 }
-<h2>Agregar</h2>
-<h4>Canción</h4>
-<hr />
+<style type="text/css">
+    .row{
+        justify-content: center;
+    }
+    label{
+        color: red;
+    }
+    .form-group{
+        background-color: rgb(0 0 0 / 55%);
+        border-radius: 0.25rem;
+        border-bottom-width: 16px;
+        padding-bottom: 20px;
+        margin-bottom: 0px;
+        padding-top: 20px;
+    }
+    .form-control{
+        width: 95%;
+    }
+</style>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddCancion">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdAlbum" />
             <partial name="_Cancion" />
-            <div class="form-group">
+            <div class="form-group" align="center">
                 <input type="submit" value="Guardar" class="btn btn-primary" />
-                <a asp-action="DetailsAlbum" asp-route-id="@Model.IdAlbum" class="btn btn-success">Volver a la lista</a>
+                
             </div>
         </form>
     </div>
+</div>
+<div align="right">
+    <a asp-action="DetailsAlbum" asp-route-id="@Model.IdAlbum" class="btn btn-success">Volver a la lista</a>
 </div>
 @section Scripts {
 @{

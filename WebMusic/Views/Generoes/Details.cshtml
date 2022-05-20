@@ -4,40 +4,35 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Detalles</h1>
-
 <link rel="stylesheet" type="text/css"
 href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css" />
 <link rel="stylesheet" href="~/lib/Font-Awesome/css/regular.min.css">
 <link rel="stylesheet" href="~/lib/Font-Awesome/css/solid.min.css">
+
+<style type="text/css">
+    .row{
+        background-color: rgb(0 0 0 / 78%);
+    }
+    .table {
+        color: white;
+    }
+    .table-hover tbody tr:hover {
+        color: #ff0000;
+        background-color: rgba(255 0 0 / 10%);
+    }
+    label, button, input, optgroup, select, textarea, h3 {
+        color: white;
+        text-align: center;
+    }
+    dt {
+        color: red;
+    }
+</style>
+
 <br />
-
-<div>
-    <h4>Género</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.des_genero)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.des_genero)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.BandasNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.BandasNumber)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="AddBanda" asp-route-id="@Model.Id" class="btn btn-primary">
-    <i class="fas fa-plus"></i>Banda</a> 
-
-    <a asp-action="Index" class="btn btn-success">Volver a la lista</a>
-</div>
-<hr />
+<br />
+<br />
 
 <div class="row">
     <div class="col-md-12">
@@ -45,8 +40,18 @@ href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
             <div class="panel-heading">
                 <h3 class="panel-title">Bandas</h3>
             </div>
+            <div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.des_genero) :     @Html.DisplayFor(model => model.des_genero)
+        </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.BandasNumber) :     @Html.DisplayFor(model => model.BandasNumber)
+        </dt>
+    </dl>
+</div>
             <div class="panel-body">
-                <table class="table table-hover table-responsive table-striped" id="MyTable">
+                <table class="table table-hover table-striped" id="MyTable">
                     <thead>
                         <tr>
                             <th>
@@ -74,7 +79,7 @@ href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
                                 <td>
                                     @Html.DisplayFor(modelItem => item.AlbumsNumber)
                                 </td>
-                                <td>
+                                <td align="right">
                                     <a asp-action="EditBanda" asp-route-id="@item.Id" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                                     <a asp-action="DetailsBanda" asp-route-id="@item.Id" class="btn btn-info"><i class="fas fa-align-justify"></i></a>
                                   <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="fas fa-trash"></i></button>  
@@ -86,6 +91,13 @@ href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
             </div>
         </div>
     </div>
+</div>
+<hr />
+<div>
+    <a asp-action="AddBanda" asp-route-id="@Model.Id" class="btn btn-primary">
+    <i class="fas fa-plus"></i>Banda</a> 
+
+    <a asp-action="Index" class="btn btn-success">Volver a la lista</a>
 </div>
 
 <partial name="_DeleteDialog" />
