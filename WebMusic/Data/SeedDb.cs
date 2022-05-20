@@ -43,7 +43,7 @@ public class SeedDb
                                    { 
                                        Nombre = "One",
                                        Link = "www.youtube.com/watch?v=WM8bTdBs-cw",
-                                       Duracion = 6
+                                       Duracion = "6:00"
                                    }
                                   
                                 }
@@ -68,7 +68,7 @@ public class SeedDb
                                    { 
                                        Nombre = "Symphony Of Destruction" ,
                                        Link = "www.youtube.com/watch?v=K5jvUXij7nU",
-                                       Duracion = 5 
+                                       Duracion = "5:00" 
                                    }
                                 }
 
@@ -92,7 +92,7 @@ public class SeedDb
                                    { 
                                        Nombre = "Gematria",
                                        Link = "www.youtube.com/watch?v=mSDwgb8ZIyk",
-                                       Duracion = 6 
+                                       Duracion = "6:00" 
                                    }
                                 }
 
@@ -123,7 +123,7 @@ public class SeedDb
                                    { 
                                        Nombre = "Warped",
                                        Link = "www.youtube.com/watch?v=xmyuJZH3RAc",
-                                       Duracion = 4 
+                                       Duracion = "4:00" 
                                    }
                                 }
 
@@ -147,7 +147,7 @@ public class SeedDb
                                    { 
                                        Nombre = "Love Me Do",
                                        Link = "www.youtube.com/watch?v=0pGOFX1D_jg",
-                                       Duracion = 2 
+                                       Duracion = "2:00" 
                                    }
                                 }
 
@@ -171,7 +171,7 @@ public class SeedDb
                                    { 
                                        Nombre = "Jesus of Suburbia",
                                        Link = "www.youtube.com/watch?v=XrHjKN2bjb0",
-                                       Duracion = 9 
+                                       Duracion = "9:00" 
                                    }
                                 }
 
