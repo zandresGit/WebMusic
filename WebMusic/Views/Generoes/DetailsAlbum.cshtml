@@ -26,6 +26,12 @@
     dt {
         color: red;
     }
+    table.dataTable tbody tr {
+        background-color: #ffffff00;
+    }
+    table.dataTable td {
+        vertical-align: middle;
+    }
 </style>
 
 <br />
@@ -75,7 +81,7 @@
                                     @Html.DisplayFor(modelItem => item.Nombre)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Link)
+                                    <a href="https://@Html.DisplayFor(modelItem => item.Link)" target="_blank">@Html.DisplayFor(modelItem => item.Link)</a>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Duracion) minutos
