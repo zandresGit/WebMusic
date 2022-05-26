@@ -6,6 +6,12 @@
     <title>@ViewData["Title"] - WebMusic</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <style type="text/css">
+        .navbar-light .navbar-nav .nav-link {
+            color: rgb(255 255 255);
+        }
+    </style>
 </head>
 <body style="background-image: url(https://w0.peakpx.com/wallpaper/924/76/HD-wallpaper-love-rock-music-bands-metal-names-red.jpg);">
     <header>
@@ -18,8 +24,11 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                         <li class="nav-item">
-                            <a class="nav-link text-ligth" asp-area="" asp-controller="Generoes" asp-action="Index">Genero</a>
+                        <li class="nav-item">
+                            <a class="nav-link text-ligth" asp-area="" asp-controller="Generoes" asp-action="Index">Generos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-ligth" asp-area="" asp-controller="Bandas" asp-action="Index">Bandas</a>
                         </li>
                     </ul>
                 </div>
