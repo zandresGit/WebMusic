@@ -26,6 +26,16 @@
     dt {
         color: red;
     }
+    table.dataTable tbody tr {
+        background-color: #ffffff00;
+    }
+    table.dataTable td {
+        vertical-align: middle;
+    }
+    ::-webkit-scrollbar{background-color: #000000;width: 8px}
+    ::-webkit-scrollbar-thumb {background: #ff000054;width: 12px;border-radius: 10px;}
+    ::-webkit-scrollbar-thumb:hover {background: #ff0000a8;width: 18px;}
+    ::-webkit-scrollbar-track{background-color: transparent;width: 12px;}
 </style>
 
 <br />
@@ -75,7 +85,7 @@
                                     @Html.DisplayFor(modelItem => item.Nombre)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Link)
+                                    <a href="#" data-toggle="modal" data-target="#RepoductorVideo" data-id="@Html.DisplayFor(modelItem => item.Link)"> @Html.DisplayFor(modelItem => item.Link) </a>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Duracion) minutos
@@ -103,18 +113,29 @@
 </div>
 
 <partial name="_DeleteDialog" />
+<partial name="_ReproductorVideo" />
 @section Scripts {
 @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="/js/deleteDialog.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
-    $('#MyTable').DataTable();
-    // Delete item
-    sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete',
-    '/Generoes/DeleteCancion/', false);
+        $('#MyTable').DataTable();
+        // Delete item
+        sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete','/Generoes/DeleteCancion/', false);
+    });
+
+
+    $(document).ready(function (e) {
+        $('#RepoductorVideo').on('show.bs.modal', function(e) {    
+			var link = $(e.relatedTarget).data().id;
+            link = link.slice(24)
+            link = "https://www.youtube.com/embed/"+link
+            document.getElementById("ventanaYoutube").src = link;
+		});
     });
 </script>
 }

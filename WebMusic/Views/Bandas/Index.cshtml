@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebMusic.Models.Genero>
+﻿@model IEnumerable<WebMusic.Models.Banda>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="~/lib/Font-Awesome/css/solid.min.css">
 
 <style type="text/css">
-    .row{
+    .row {
         background-color: rgb(0 0 0 / 78%);
     }
     .table {
@@ -34,26 +34,27 @@
     ::-webkit-scrollbar-thumb {background: #ff000054;width: 12px;border-radius: 10px;}
     ::-webkit-scrollbar-thumb:hover {background: #ff0000a8;width: 18px;}
     ::-webkit-scrollbar-track{background-color: transparent;width: 12px;}
+ 
 </style>
 <br />
 <br />
 <br />
-<div class="row"> 
+<div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Generos Musicales</h3>
+                <h3 class="panel-title"><br />Bandas</h3>
             </div>
             <div class="panel-body">
                 <table class="table table-hover table-striped" id="MyTable">
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.des_genero)
+                                @Html.DisplayNameFor(model => model.nombre)
                             </th>
                             <th>
- 	                            @Html.DisplayNameFor(model => model.BandasNumber)
- 	                        </th>
+                                @Html.DisplayNameFor(model => model.origen)
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
@@ -62,12 +63,11 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.des_genero)
+                                    @Html.DisplayFor(modelItem => item.nombre)
                                 </td>
                                 <td>
- 	                                @Html.DisplayFor(modelItem => item.BandasNumber)
- 	                            </td>
-
+                                    @Html.DisplayFor(modelItem => item.origen)
+                                </td>
                                 <td align="right">
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fas fa-align-justify"></i></a>

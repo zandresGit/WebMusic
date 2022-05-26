@@ -1,4 +1,4 @@
-﻿@model WebMusic.Models.Album
+﻿@model WebMusic.Models.AlbumViewModel
 <div class="form-group">
     <label asp-for="nombre" class="control-label"></label>
     <input asp-for="nombre" class="form-control" />
@@ -7,4 +7,8 @@
     <label asp-for="anio" class="control-label"></label>
     <input asp-for="anio" class="form-control" />
     <span asp-validation-for="anio" class="text-danger"></span>
+
+    <label asp-for="ImageFile" class="control-label"></label>
+    <input asp-for="ImageFile" type="file" class="form-control" />
+    <span asp-validation-for="ImageFile" class="text-danger"></span>
 </div>
